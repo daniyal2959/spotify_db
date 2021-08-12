@@ -1,0 +1,50 @@
+----------------- Find All Followers Username -----------------
+SELECT `us`.`username` as `user`, `users`.`username` as `follower` FROM `followers`
+INNER JOIN `users` as `us`
+ON `us`.`ID` = `followers`.`UID`
+INNER JOIN `users`
+ON `users`.`ID` = `followers`.`FID`
+
+
+----------------- Find All Followings Username -----------------
+SELECT `us`.`username` as `user`, `users`.`username` as `followings` FROM `followings`
+INNER JOIN `users` as `us`
+ON `us`.`ID` = `followings`.`UID`
+INNER JOIN `users`
+ON `users`.`ID` = `followings`.`FID`
+
+
+----------------- Find Which Users Liked Which Musics -----------------
+SELECT `users`.`username`, `musics`.`Name` FROM `users`
+INNER JOIN `likedlists`
+ON `users`.`ID` = `likedlists`.`UID`
+INNER JOIN `musics`
+ON `musics`.`ID` = `likedlists`.`MID`
+
+
+----------------- Find How Many Musics Liked By Users -----------------
+SELECT `users`.`username` , COUNT(`musics`.`Name`) as `count` FROM `users`
+INNER JOIN `likedlists`
+ON `users`.`ID` = `likedlists`.`UID`
+INNER JOIN `musics`
+ON `musics`.`ID` = `likedlists`.`MID`
+GROUP BY `users`.`username`
+
+
+----------------- Find How Many Musics Played By Users -----------------
+SELECT `users`.`username`, COUNT(`musics`.`Name`) as `count` FROM `playedmusics`
+INNER JOIN `users`
+ON `playedmusics`.`UID` = `users`.`ID`
+INNER JOIN `musics`
+ON `playedmusics`.`MID` = `musics`.`ID`
+GROUP BY `users`.`username`
+
+
+----------------- Find Users That Save Any Musics in His/Her PlayLists -----------------
+SELECT `users`.`username`, `musics`.`Name` FROM `playlistmusics`
+INNER JOIN `playlists`
+ON `playlistmusics`.`PLID` = `playlists`.`ID`
+INNER JOIN `musics`
+ON `playlistmusics`.`MID` = `musics`.`ID`
+INNER JOIN `users`
+ON `playlists`.`UID` = `users`.`ID`
